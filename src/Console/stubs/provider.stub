@@ -1,0 +1,28 @@
+<?php
+
+namespace {{ namespace }};
+
+use SultanovSolutions\LaravelBase\Providers\BaseServiceProvider;
+
+class {{ class }} extends BaseServiceProvider
+{
+    /**
+     * Register services.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        //
+    }
+
+    /**
+     * Bootstrap services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        //
+    }
+}

@@ -1,0 +1,45 @@
+{
+    "name": "sultanov-solutions/micro-commands",
+    "version": "0.0.1",
+    "autoload": {
+        "psr-4": {
+            "SultanovPackage\\MicroCommands\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Jamal Sultanov",
+            "email": "cl.jamal@gmail.com"
+        },
+        {
+            "name": "Yunusali Abdurakhmanov Khakimjanovich",
+            "email": "yunusalikhakimjanovich@gmail.com"
+        }
+    ],
+    "require": {
+        "sultanov-solutions/laravel-base": "^1.0"
+    },
+    "require-dev": {
+        "sultanov-solutions/micro": "^0.0"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "SultanovPackage\\MicroCommands\\ServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "install-micro": [
+            "SultanovSolutions\\Micro\\Micro::copyStubs"
+        ],
+        "set-package-name": [
+            "SultanovSolutions\\Micro\\Micro::setPackageName"
+        ]
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    }
+}

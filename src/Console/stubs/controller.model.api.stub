@@ -1,0 +1,14 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ namespacedModel }};
+use SultanovSolutions\LaravelBase\Controllers\BaseController;
+use {{ namespacedRequests }}
+
+class {{ class }} extends BaseController
+{
+    protected mixed $model = Model::class;
+
+    protected string $scope = '{{ class }}';
+}
