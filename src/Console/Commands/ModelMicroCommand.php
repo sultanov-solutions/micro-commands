@@ -1,10 +1,11 @@
 <?php
 
-namespace SultanovPackage\MicroCommands\Console;
+namespace SultanovPackage\MicroCommands\Console\Commands;
 
 use Illuminate\Console\Concerns\CreatesMatchingTest;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Str;
+use SultanovPackage\MicroCommands\Console\GeneratorCommand;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -58,9 +59,9 @@ class ModelMicroCommand extends GeneratorCommand
             $this->createFactory();
         }
 
-        if ($this->option('migration')) {
-            $this->createMigration();
-        }
+//        if ($this->option('migration')) {
+//            $this->createMigration();
+//        }
 
         if ($this->option('seed')) {
             $this->createSeeder();
@@ -79,13 +80,12 @@ class ModelMicroCommand extends GeneratorCommand
     /**
      * Create a model factory for the model.
      *
-     * @return void
      */
-    protected function createFactory()
+    protected function createFactory(): void
     {
         $factory = Str::studly($this->argument('name'));
 
-        $this->call('make:factory', [
+        $this->call('micro:factory', [
             'name' => "{$factory}Factory",
             '--model' => $this->qualifyClass($this->getNameInput()),
         ]);
@@ -93,10 +93,8 @@ class ModelMicroCommand extends GeneratorCommand
 
     /**
      * Create a migration file for the model.
-     *
-     * @return void
      */
-    protected function createMigration()
+    protected function createMigration(): void
     {
         $table = Str::snake(Str::pluralStudly(class_basename($this->argument('name'))));
 
@@ -104,7 +102,7 @@ class ModelMicroCommand extends GeneratorCommand
             $table = Str::singular($table);
         }
 
-        $this->call('make:migration', [
+        $this->call('micro:migration', [
             'name' => "create_{$table}_table",
             '--create' => $table,
         ]);
@@ -112,14 +110,12 @@ class ModelMicroCommand extends GeneratorCommand
 
     /**
      * Create a seeder file for the model.
-     *
-     * @return void
      */
     protected function createSeeder()
     {
         $seeder = Str::studly(class_basename($this->argument('name')));
 
-        $this->call('make:seeder', [
+        $this->call('micro:seeder', [
             'name' => "{$seeder}Seeder",
         ]);
     }

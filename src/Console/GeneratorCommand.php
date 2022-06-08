@@ -6,7 +6,6 @@ use Illuminate\Console\Command;
 use Illuminate\Console\Concerns\CreatesMatchingTest;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputArgument;
 
@@ -224,21 +223,10 @@ abstract class GeneratorCommand extends Command
      */
     protected function rootNamespace(): string
     {
-        $content = file_get_contents(MICRO_ROOT_DIR.'/composer.json');
-        $content = json_decode($content,true);
+        $content = file_get_contents(MICRO_ROOT_DIR . '/composer.json');
+        $content = json_decode($content, true);
 
         return array_key_first($content['autoload']['psr-4']);
-    }
-
-    /**
-     * Get the full namespace for a given class, without the class name.
-     *
-     * @param string $name
-     * @return string
-     */
-    protected function getNamespace(string $name): string
-    {
-        return trim(implode('\\', array_slice(explode('\\', $name), 0, -1)), '\\');
     }
 
     /**
@@ -344,6 +332,17 @@ abstract class GeneratorCommand extends Command
         $class = str_replace($this->getNamespace($name) . '\\', '', $name);
 
         return str_replace(['DummyClass', '{{ class }}', '{{class}}'], $class, $stub);
+    }
+
+    /**
+     * Get the full namespace for a given class, without the class name.
+     *
+     * @param string $name
+     * @return string
+     */
+    protected function getNamespace(string $name): string
+    {
+        return trim(implode('\\', array_slice(explode('\\', $name), 0, -1)), '\\');
     }
 
     /**

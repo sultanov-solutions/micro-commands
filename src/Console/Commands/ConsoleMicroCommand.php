@@ -1,8 +1,9 @@
 <?php
 
-namespace SultanovPackage\MicroCommands\Console;
+namespace SultanovPackage\MicroCommands\Console\Commands;
 
 use Illuminate\Console\Concerns\CreatesMatchingTest;
+use SultanovPackage\MicroCommands\Console\GeneratorCommand;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;

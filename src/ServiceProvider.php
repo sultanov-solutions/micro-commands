@@ -2,15 +2,21 @@
 
 namespace SultanovPackage\MicroCommands;
 
-use SultanovPackage\MicroCommands\Console\ConsoleMicroCommand;
+use SultanovPackage\MicroCommands\Console\Commands\FactoryMicroCommand;
+use SultanovPackage\MicroCommands\Console\Commands\ConsoleMicroCommand;
+use SultanovPackage\MicroCommands\Console\Commands\MigrateMicroCommand;
+use SultanovPackage\MicroCommands\Console\Commands\ModelMicroCommand;
+use SultanovPackage\MicroCommands\Console\Commands\SeederMicroCommand;
 use SultanovSolutions\LaravelBase\Providers\BaseServiceProvider;
-use SultanovPackage\MicroCommands\Console\ModelMicroCommand;
 
 class ServiceProvider extends BaseServiceProvider
 {
     protected array $commands = [
         ConsoleMicroCommand::class,
         ModelMicroCommand::class,
+        FactoryMicroCommand::class,
+        MigrateMicroCommand::class,
+        SeederMicroCommand::class,
     ];
 
     public function onBoot(): void
