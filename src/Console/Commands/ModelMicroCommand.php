@@ -71,9 +71,10 @@ class ModelMicroCommand extends GeneratorCommand
             $this->createController();
         }
 
-        if ($this->option('policy')) {
-            $this->createPolicy();
-        }
+//        if ($this->option('policy')) {
+//            $this->createPolicy();
+//        }
+
         return true;
     }
 
@@ -88,23 +89,6 @@ class ModelMicroCommand extends GeneratorCommand
         $this->call('micro:factory', [
             'name' => "{$factory}Factory",
             '--model' => $this->qualifyClass($this->getNameInput()),
-        ]);
-    }
-
-    /**
-     * Create a migration file for the model.
-     */
-    protected function createMigration(): void
-    {
-        $table = Str::snake(Str::pluralStudly(class_basename($this->argument('name'))));
-
-        if ($this->option('pivot')) {
-            $table = Str::singular($table);
-        }
-
-        $this->call('micro:migration', [
-            'name' => "create_{$table}_table",
-            '--create' => $table,
         ]);
     }
 
@@ -131,7 +115,7 @@ class ModelMicroCommand extends GeneratorCommand
 
         $modelName = $this->qualifyClass($this->getNameInput());
 
-        $this->call('make:controller', array_filter([
+        $this->call('micro:controller', array_filter([
             'name' => "{$controller}Controller",
             '--model' => $this->option('resource') || $this->option('api') ? $modelName : null,
             '--api' => $this->option('api'),
@@ -148,16 +132,31 @@ class ModelMicroCommand extends GeneratorCommand
     {
         $policy = Str::studly(class_basename($this->argument('name')));
 
-        $this->call('make:policy', [
+        $this->call('micro:policy', [
             'name' => "{$policy}Policy",
             '--model' => $this->qualifyClass($this->getNameInput()),
         ]);
     }
 
     /**
+     * Create a migration file for the model.
+     */
+    protected function createMigration(): void
+    {
+        $table = Str::snake(Str::pluralStudly(class_basename($this->argument('name'))));
+
+        if ($this->option('pivot')) {
+            $table = Str::singular($table);
+        }
+
+        $this->call('micro:migration', [
+            'name' => "create_{$table}_table",
+            '--create' => $table,
+        ]);
+    }
+
+    /**
      * Get the stub file for the generator.
-     *
-     * @return string
      */
     protected function getStub(): string
     {
@@ -174,11 +173,8 @@ class ModelMicroCommand extends GeneratorCommand
 
     /**
      * Resolve the fully-qualified path to the stub.
-     *
-     * @param string $stub
-     * @return string
      */
-    protected function resolveStubPath($stub)
+    protected function resolveStubPath(string $stub): string
     {
         return file_exists($customPath = $this->laravel->basePath(trim($stub, '/')))
             ? $customPath
@@ -187,9 +183,6 @@ class ModelMicroCommand extends GeneratorCommand
 
     /**
      * Get the default namespace for the class.
-     *
-     * @param string $rootNamespace
-     * @return string
      */
     protected function getDefaultNamespace(string $rootNamespace): string
     {
@@ -198,10 +191,8 @@ class ModelMicroCommand extends GeneratorCommand
 
     /**
      * Get the console command options.
-     *
-     * @return array
      */
-    protected function getOptions()
+    protected function getOptions(): array
     {
         return [
             ['all', 'a', InputOption::VALUE_NONE, 'Generate a migration, seeder, factory, policy, and resource controller for the model'],

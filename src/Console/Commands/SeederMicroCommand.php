@@ -46,10 +46,7 @@ class SeederMicroCommand extends GeneratorCommand
      */
     protected function resolveStubPath(string $stub): string
     {
-        dd(is_file($customPath = $this->laravel->basePath(trim($stub, '/')))
-            ? $customPath
-            : __DIR__ . $stub);
-        return is_file($customPath = $this->laravel->basePath(trim($stub, '/')))
+        return is_file($customPath = MICRO_SRC_DIR . '/Console/Commands' . $stub)
             ? $customPath
             : __DIR__ . $stub;
     }
@@ -61,18 +58,15 @@ class SeederMicroCommand extends GeneratorCommand
     {
         $name = str_replace('\\', '/', Str::replaceFirst($this->rootNamespace(), '', $name));
 
-        if (is_dir($this->laravel->databasePath() . '/seeds')) {
-            return $this->laravel->databasePath() . '/seeds/' . $name . '.php';
-        }
-
-        return $this->laravel->databasePath() . '/seeders/' . $name . '.php';
+        return MICRO_SRC_DIR . '/' . $name . '.php';
     }
 
     /**
-     * Get the root namespace for the class.
+     * Get the default namespace for the class.
+     *
      */
-    protected function rootNamespace(): string
+    protected function getDefaultNamespace(string $rootNamespace): string
     {
-        return 'Database\Seeders\\';
+        return $rootNamespace . '\Database\Seeders';
     }
 }

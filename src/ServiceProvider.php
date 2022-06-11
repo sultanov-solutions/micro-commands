@@ -2,10 +2,15 @@
 
 namespace SultanovPackage\MicroCommands;
 
-use SultanovPackage\MicroCommands\Console\Commands\FactoryMicroCommand;
+use SultanovPackage\MicroCommands\Console\Commands\CastMicroCommand;
 use SultanovPackage\MicroCommands\Console\Commands\ConsoleMicroCommand;
-use SultanovPackage\MicroCommands\Console\Commands\MigrateMicroCommand;
+use SultanovPackage\MicroCommands\Console\Commands\ControllerMicroCommand;
+use SultanovPackage\MicroCommands\Console\Commands\EventMicroCommand;
+use SultanovPackage\MicroCommands\Console\Commands\ExceptionMicroCommand;
+use SultanovPackage\MicroCommands\Console\Commands\FactoryMicroCommand;
+use SultanovPackage\MicroCommands\Console\Commands\ListenerMicroCommand;
 use SultanovPackage\MicroCommands\Console\Commands\ModelMicroCommand;
+use SultanovPackage\MicroCommands\Console\Commands\RequestMicroCommand;
 use SultanovPackage\MicroCommands\Console\Commands\SeederMicroCommand;
 use SultanovSolutions\LaravelBase\Providers\BaseServiceProvider;
 
@@ -15,8 +20,14 @@ class ServiceProvider extends BaseServiceProvider
         ConsoleMicroCommand::class,
         ModelMicroCommand::class,
         FactoryMicroCommand::class,
-        MigrateMicroCommand::class,
         SeederMicroCommand::class,
+        ControllerMicroCommand::class,
+        RequestMicroCommand::class,
+//        PolicyMicroCommand::class,
+        EventMicroCommand::class,
+        ListenerMicroCommand::class,
+        ExceptionMicroCommand::class,
+        CastMicroCommand::class,
     ];
 
     public function onBoot(): void
