@@ -59,9 +59,9 @@ class ModelMicroCommand extends GeneratorCommand
             $this->createFactory();
         }
 
-//        if ($this->option('migration')) {
-//            $this->createMigration();
-//        }
+        if ($this->option('migration')) {
+            $this->createMigration();
+        }
 
         if ($this->option('seed')) {
             $this->createSeeder();
@@ -149,7 +149,7 @@ class ModelMicroCommand extends GeneratorCommand
             $table = Str::singular($table);
         }
 
-        $this->call('micro:migration', [
+        $this->call('make:migration', [
             'name' => "create_{$table}_table",
             '--create' => $table,
         ]);

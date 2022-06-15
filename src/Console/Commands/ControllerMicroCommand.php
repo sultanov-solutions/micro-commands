@@ -65,9 +65,7 @@ class ControllerMicroCommand extends GeneratorCommand
      */
     protected function resolveStubPath(string $stub): string
     {
-        return file_exists($customPath = $this->laravel->basePath(trim($stub, '/')))
-            ? $customPath
-            : __DIR__ . $stub;
+        return file_exists($customPath = $this->laravel->basePath(trim($stub, '/'))) ? $customPath : __DIR__ . $stub;
     }
 
     /**
@@ -97,9 +95,7 @@ class ControllerMicroCommand extends GeneratorCommand
 
         $replace["use {$controllerNamespace}\Controller;\n"] = '';
 
-        return str_replace(
-            array_keys($replace), array_values($replace), parent::buildClass($name)
-        );
+        return str_replace(array_keys($replace), array_values($replace), parent::buildClass($name));
     }
 
     /**
@@ -109,22 +105,11 @@ class ControllerMicroCommand extends GeneratorCommand
     {
         $parentModelClass = $this->parseModel($this->option('parent'));
 
-        if (!class_exists($parentModelClass) &&
-            $this->confirm("A {$parentModelClass} model does not exist. Do you want to generate it?", true)) {
+        if (!class_exists($parentModelClass) && $this->confirm("A {$parentModelClass} model does not exist. Do you want to generate it?", true)) {
             $this->call('micro:model', ['name' => $parentModelClass]);
         }
 
-        return [
-            'ParentDummyFullModelClass' => $parentModelClass,
-            '{{ namespacedParentModel }}' => $parentModelClass,
-            '{{namespacedParentModel}}' => $parentModelClass,
-            'ParentDummyModelClass' => class_basename($parentModelClass),
-            '{{ parentModel }}' => class_basename($parentModelClass),
-            '{{parentModel}}' => class_basename($parentModelClass),
-            'ParentDummyModelVariable' => lcfirst(class_basename($parentModelClass)),
-            '{{ parentModelVariable }}' => lcfirst(class_basename($parentModelClass)),
-            '{{parentModelVariable}}' => lcfirst(class_basename($parentModelClass)),
-        ];
+        return ['ParentDummyFullModelClass' => $parentModelClass, '{{ namespacedParentModel }}' => $parentModelClass, '{{namespacedParentModel}}' => $parentModelClass, 'ParentDummyModelClass' => class_basename($parentModelClass), '{{ parentModel }}' => class_basename($parentModelClass), '{{parentModel}}' => class_basename($parentModelClass), 'ParentDummyModelVariable' => lcfirst(class_basename($parentModelClass)), '{{ parentModelVariable }}' => lcfirst(class_basename($parentModelClass)), '{{parentModelVariable}}' => lcfirst(class_basename($parentModelClass)),];
     }
 
     /**
@@ -155,17 +140,7 @@ class ControllerMicroCommand extends GeneratorCommand
 
         $replace = $this->buildFormRequestReplacements($replace, $modelClass);
 
-        return array_merge($replace, [
-            'DummyFullModelClass' => $modelClass,
-            '{{ namespacedModel }}' => $modelClass,
-            '{{namespacedModel}}' => $modelClass,
-            'DummyModelClass' => class_basename($modelClass),
-            '{{ model }}' => class_basename($modelClass),
-            '{{model}}' => class_basename($modelClass),
-            'DummyModelVariable' => lcfirst(class_basename($modelClass)),
-            '{{ modelVariable }}' => lcfirst(class_basename($modelClass)),
-            '{{modelVariable}}' => lcfirst(class_basename($modelClass)),
-        ]);
+        return array_merge($replace, ['DummyFullModelClass' => $modelClass, '{{ namespacedModel }}' => $modelClass, '{{namespacedModel}}' => $modelClass, 'DummyModelClass' => class_basename($modelClass), '{{ model }}' => class_basename($modelClass), '{{model}}' => class_basename($modelClass), 'DummyModelVariable' => lcfirst(class_basename($modelClass)), '{{ modelVariable }}' => lcfirst(class_basename($modelClass)), '{{modelVariable}}' => lcfirst(class_basename($modelClass)),]);
     }
 
     /**
@@ -173,16 +148,12 @@ class ControllerMicroCommand extends GeneratorCommand
      */
     protected function buildFormRequestReplacements(array $replace, string $modelClass): array
     {
-        [$namespace, $storeRequestClass, $updateRequestClass] = [
-            'Illuminate\\Http', 'Request', 'Request',
-        ];
+        [$namespace, $storeRequestClass, $updateRequestClass] = ['Illuminate\\Http', 'Request', 'Request',];
 
         if ($this->option('requests')) {
-            $namespace = 'App\\Http\\Requests';
+            $namespace = MICRO_SRC_DIR . '\\Requests';
 
-            [$storeRequestClass, $updateRequestClass] = $this->generateFormRequests(
-                $modelClass, $storeRequestClass, $updateRequestClass
-            );
+            [$storeRequestClass, $updateRequestClass] = $this->generateFormRequests($modelClass, $storeRequestClass, $updateRequestClass);
         }
 
         $namespacedRequests = $namespace . '\\' . $storeRequestClass . ';';
@@ -191,18 +162,7 @@ class ControllerMicroCommand extends GeneratorCommand
             $namespacedRequests .= PHP_EOL . 'use ' . $namespace . '\\' . $updateRequestClass . ';';
         }
 
-        return array_merge($replace, [
-            '{{ storeRequest }}' => $storeRequestClass,
-            '{{storeRequest}}' => $storeRequestClass,
-            '{{ updateRequest }}' => $updateRequestClass,
-            '{{updateRequest}}' => $updateRequestClass,
-            '{{ namespacedStoreRequest }}' => $namespace . '\\' . $storeRequestClass,
-            '{{namespacedStoreRequest}}' => $namespace . '\\' . $storeRequestClass,
-            '{{ namespacedUpdateRequest }}' => $namespace . '\\' . $updateRequestClass,
-            '{{namespacedUpdateRequest}}' => $namespace . '\\' . $updateRequestClass,
-            '{{ namespacedRequests }}' => $namespacedRequests,
-            '{{namespacedRequests}}' => $namespacedRequests,
-        ]);
+        return array_merge($replace, ['{{ storeRequest }}' => $storeRequestClass, '{{storeRequest}}' => $storeRequestClass, '{{ updateRequest }}' => $updateRequestClass, '{{updateRequest}}' => $updateRequestClass, '{{ namespacedStoreRequest }}' => $namespace . '\\' . $storeRequestClass, '{{namespacedStoreRequest}}' => $namespace . '\\' . $storeRequestClass, '{{ namespacedUpdateRequest }}' => $namespace . '\\' . $updateRequestClass, '{{namespacedUpdateRequest}}' => $namespace . '\\' . $updateRequestClass, '{{ namespacedRequests }}' => $namespacedRequests, '{{namespacedRequests}}' => $namespacedRequests,]);
     }
 
     /**
@@ -217,15 +177,11 @@ class ControllerMicroCommand extends GeneratorCommand
     {
         $storeRequestClass = 'Store' . class_basename($modelClass) . 'Request';
 
-        $this->call('micro:request', [
-            'name' => $storeRequestClass,
-        ]);
+        $this->call('micro:request', ['name' => $storeRequestClass,]);
 
         $updateRequestClass = 'Update' . class_basename($modelClass) . 'Request';
 
-        $this->call('micro:request', [
-            'name' => $updateRequestClass,
-        ]);
+        $this->call('micro:request', ['name' => $updateRequestClass,]);
 
         return [$storeRequestClass, $updateRequestClass];
     }
@@ -235,15 +191,6 @@ class ControllerMicroCommand extends GeneratorCommand
      */
     protected function getOptions(): array
     {
-        return [
-            ['api', null, InputOption::VALUE_NONE, 'Exclude the create and edit methods from the controller.'],
-            ['type', null, InputOption::VALUE_REQUIRED, 'Manually specify the controller stub file to use.'],
-            ['force', null, InputOption::VALUE_NONE, 'Create the class even if the controller already exists'],
-            ['invokable', 'i', InputOption::VALUE_NONE, 'Generate a single method, invokable controller class.'],
-            ['model', 'm', InputOption::VALUE_OPTIONAL, 'Generate a resource controller for the given model.'],
-            ['parent', 'p', InputOption::VALUE_OPTIONAL, 'Generate a nested resource controller class.'],
-            ['resource', 'r', InputOption::VALUE_NONE, 'Generate a resource controller class.'],
-            ['requests', 'R', InputOption::VALUE_NONE, 'Generate FormRequest classes for store and update.'],
-        ];
+        return [['api', null, InputOption::VALUE_NONE, 'Exclude the create and edit methods from the controller.'], ['type', null, InputOption::VALUE_REQUIRED, 'Manually specify the controller stub file to use.'], ['force', null, InputOption::VALUE_NONE, 'Create the class even if the controller already exists'], ['invokable', 'i', InputOption::VALUE_NONE, 'Generate a single method, invokable controller class.'], ['model', 'm', InputOption::VALUE_OPTIONAL, 'Generate a resource controller for the given model.'], ['parent', 'p', InputOption::VALUE_OPTIONAL, 'Generate a nested resource controller class.'], ['resource', 'r', InputOption::VALUE_NONE, 'Generate a resource controller class.'], ['requests', 'R', InputOption::VALUE_NONE, 'Generate FormRequest classes for store and update.'],];
     }
 }
